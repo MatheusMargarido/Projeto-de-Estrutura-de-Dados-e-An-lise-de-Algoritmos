@@ -54,7 +54,7 @@ otimizacao_logistica/
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/MatheusMargarido/ProjetoEstruturaDeDadosEAnaliseDeAlgoritmo.git
+git clone https://github.com/MatheusMargarido/otimizacao_logistica
 ```
 
 2. Acesse a pasta do projeto:
