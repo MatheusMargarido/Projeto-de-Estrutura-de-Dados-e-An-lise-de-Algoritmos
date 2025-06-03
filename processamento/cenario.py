@@ -65,25 +65,37 @@ def processar_cenario(nome_cenario, dados_cenario, graph):
     print(f"  ➤ CD selecionado: {melhor_cd}")
     print(f"  ➤ Rota utilizada: {rota_descricao}")
     print(f"  ➤ Data e horário de saída: {data_saida} às 8h")
-    print(f"  ➤ Prazo: {dias_uteis} dia(s) útil(is)")
+    print(f"  ➤ Prazo: {dias_uteis} dia(s) útil(is) para entregar até às 19h")
+    print(f"  ➤ Consumo: {veiculo['consumo']} km/L | Custo por km: R$ {preco_diesel / veiculo['consumo']:.2f} | Preço diesel/L: R$ {preco_diesel:.2f}")
 
     hora_atual = hora_partida
     for origem, destino, dist_seg, dur_seg in melhor_rota_geral:
         chegada = calcular_chegada(hora_atual, dur_seg)
         custo_seg = calcular_custo(dist_seg, veiculo["consumo"], preco_diesel)
-        print(f"  - Rota: {origem} → {destino}")
-        print(f"    Distância: {dist_seg} km, Duração: {dur_seg}h, Chegada: {chegada.strftime('%H:%M')}, Custo: R$ {custo_seg:.2f}")
+        print(f"\n  - Rota: {origem} → {destino}")
+        print(f"    Distância: {dist_seg} km")
+        print(f"    Horário de chegada: {chegada.strftime('%H:%M')}")
+        print(f"    Duração: {dur_seg}h")
+        print(f"    Custo de combustível: R$ {custo_seg:.2f}")
         hora_atual = chegada
 
     total_pedagio = pedagios * valor_pedagio
     custo_total_com_pedagio = menor_custo_total + total_pedagio
 
     print(f"\n  ➤ Total percorrido: {melhor_total_km} km")
-    print(f"  ➤ Tempo total: {melhor_total_horas} horas")
-    print(f"  ➤ Custo total: R$ {custo_total_com_pedagio:.2f}")
+    print(f"  ➤ Tempo total de viagem: {melhor_total_horas} horas")
+    print(f"  ➤ Custo total de combustível: R$ {menor_custo_total:.2f}")
+
+    print(f"\n  ➤ Pedágios:")
+    print(f"    - Quantidade de pedágios: {pedagios}")
+    print(f"    - Valor unitário de cada pedágio: R$ {valor_pedagio:.2f}")
+    print(f"    - Total de pedágios: R$ {total_pedagio:.2f}")
+
+    print(f"\n  ➤ Custo total (combustível + pedágios): R$ {custo_total_com_pedagio:.2f}")
 
     hora_chegada_final = hora_atual.time()
     if hora_chegada_final < hora_limite_inicial or hora_chegada_final > hora_limite_final:
-        print(f"  ➤ Prazo NÃO cumprido! Última chegada às {hora_atual.strftime('%H:%M')}.")
+        print(f"\n  ➤ Prazo NÃO cumprido! Última chegada às {hora_atual.strftime('%H:%M')}.")
     else:
-        print(f"  ➤ Prazo cumprido! Última chegada às {hora_atual.strftime('%H:%M')}.")
+        print(f"\n  ➤ Prazo de entrega cumprido! Última chegada às {hora_atual.strftime('%H:%M')} dentro do horário permitido.")
+
